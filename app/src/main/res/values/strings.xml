@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Sweet Dreams</string>
+    <string name="sweet_dreams_icon">sweet dreams icon</string>
+    <string name="sweet_dreams">Sweet Dreams</string>
+    <string name="for_a_better_sleep">For a better sleep</string>
+    <string name="if_i_sleep_right_now">If I go to bed right now...</string>
+    <string name="i_need_to_wake_up_at">I need to wake up at...</string>
+    <string name="what_if_i_slept_at">What if I slept at...</string>
+    <string name="home">Home</string>
+    <string name="about">About</string>
+    <string name="learn_more">FAQ</string>
+    <string name="donate">Donate</string>
+    <string name="set_alarm">set alarm</string>
+    <string name="version">Version 0.1.1</string>
+    <string name="about_text">\"Sweet Dreams\" is an app which calculates optimal time to sleep in order to wake up energetic and refreshed, using sleep cycles, patterns and various related data. Refer \"FAQ\" section to find more details about the process.\n\n
+    If you like this app, please consider giving 5 stars on Google Play :)\n
+    Your feedback is very important to the development of the app. So if you want any new features or have any problems, please let me know in the reviews. You can also contact me using the email provided.\n\n
+    And finally, thank you for downloading the app!</string>
+    <string name="developer">Developed by: <b>Tashila Pathum</b></string>
+    <string name="contact">Contact: tashila.pathum@gmail.com</string>
+    <string name="rate">Rate</string>
+    <string name="more_apps">More apps</string>
+    <string name="p_cancelled">Purchase cancelled</string>
+    <string name="p_already">Already purchased</string>
+    <string name="p_restored">Restored successfully!</string>
+    <string name="p_failed">Purchase failed</string>
+    <string name="connection_problem">Connection problem</string>
+    <string name="failed_gplay">Possible purchase error. Failed to connect to Google Play services</string>
+    <string name="connec_failed">Connection Failed</string>
+    <string name="must_have_internet">You must be connected to the Internet to continue. Please check your connection and tap \"OK\" to retry.</string>
+    <string name="restore_purchase">Restore purchase</string>
+    <string name="ty_des">I\'m glad you\'re enjoying this app. Thank you for your donation! Your contribution to indie development is much appreciated!</string>
+    <string name="ty">Thank you</string>
+    <string name="frequently_asked_questions">Frequently asked questions</string>
+    <string name="support">Support</string>
+    <string name="donate_top_text">As an indie developer, even the smallest donation means a lot to me. Your contributions encourage me to keep this app alive and continue to bring in more features and apps. :)</string>
+    <string name="dd1">Buy me a coffee</string>
+    <string name="d1">A small thank you</string>
+    <string name="d2">A BIG thank you</string>
+    <string name="dd2">I\'ll buy my her a big chocolate</string>
+    <string name="d3">Absolutely LOVE this app</string>
+    <string name="dd3">I will dedicate a lot more time and resources for this app :)</string>
+    <string name="d4">Generous contributor</string>
+    <string name="dd4">Maybe I\'ll replace my broken screen :P</string>
+    <string name="d5">ULTIMATE SUPPORTER</string>
+    <string name="dd5">You\'ll help me kick-start my own company!</string>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:id="@+id/sampleFAQ">
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Whats is a sleep cycle?"
+        android:textStyle="bold"
+        android:textColor="@color/colorText"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+    <TextView
+        android:id="@+id/answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sleep cycles are part of our internal biological “clocks” the regularly occurring patterns of brain waves which occur while we sleep. Sleep cycles typically last around ninety minutes to two hours, during which time the brain cycles from slow-wave sleep to REM sleep in which we experience dreams."
+        android:textColor="@color/colorText"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_marginBottom="8dp"/>
+
+</LinearLayout>
