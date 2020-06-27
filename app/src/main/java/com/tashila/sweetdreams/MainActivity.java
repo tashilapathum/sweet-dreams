@@ -40,10 +40,10 @@ import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
-import com.elconfidencial.bubbleshowcase.BubbleShowCase;
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.threeten.bp.LocalDate;
@@ -90,10 +90,24 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         //background image animation
-        KenBurnsView kbvBack = findViewById(R.id.kbvBack);
-        AccelerateDecelerateInterpolator adi = new AccelerateDecelerateInterpolator();
-        RandomTransitionGenerator generator = new RandomTransitionGenerator(42000, adi);
-        kbvBack.setTransitionGenerator(generator);
+        try {
+            boolean bgAnimCrashed = sharedPref.getBoolean("bgAnimCrashed", false);
+            if (!bgAnimCrashed) {
+                KenBurnsView kbvBack = findViewById(R.id.kbvBack);
+                kbvBack.setVisibility(View.VISIBLE);
+                AccelerateDecelerateInterpolator adi = new AccelerateDecelerateInterpolator();
+                RandomTransitionGenerator generator = new RandomTransitionGenerator(42000, adi);
+                kbvBack.setTransitionGenerator(generator);
+            }
+            else {
+                findViewById(R.id.parent_layout).setBackground(getResources().getDrawable(R.drawable.background));
+            }
+        }
+        catch (Exception e) {
+            FirebaseCrashlytics.getInstance().log(e.getMessage());
+            sharedPref.edit().putBoolean("bgAnimCrashed", true).apply();
+            findViewById(R.id.parent_layout).setBackground(getResources().getDrawable(R.drawable.background));
+        }
 
         times = new LocalDateTime[7]; //because 7 means 6th imageView
 
