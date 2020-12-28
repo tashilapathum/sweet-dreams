@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -43,6 +44,8 @@ import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     private String bottomText;
     private int buyButtonId;
     SharedPreferences sharedPref;
+    private int sleepingTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         setContentView(R.layout.activity_main);
         AndroidThreeTen.init(this);
         sharedPref = getSharedPreferences("myPref", MODE_PRIVATE);
+        sleepingTime = sharedPref.getInt("sleepingTime", 14);
 
         //to make fullscreen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -152,6 +157,14 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                 activeLayout = timesLayout;
             }
         });
+        ImageButton imTime = findViewById(R.id.sleepingTime);
+        imTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogSleepingTime dialogSleepingTime = new DialogSleepingTime();
+                dialogSleepingTime.show(getSupportFragmentManager(), "sleeping time dialog");
+            }
+        });
 
         //hide bottom menu when landscape
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
@@ -161,8 +174,8 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         boolean alreadyRated = sharedPref.getBoolean("alreadyRated", false);
         int openCount = sharedPref.getInt("openCount", 0);
         sharedPref.edit().putInt("openCount", openCount + 1).apply();
-        if (!alreadyRated & openCount >= 42) {
-            new AlertDialog.Builder(this)
+        if (!alreadyRated & openCount >= 14) {
+            new MaterialAlertDialogBuilder(this)
                     .setTitle("Enjoying the app?")
                     .setMessage("If you like \"Sweet Dreams\", would you mind rating the app 5 stars on PlayStore? " +
                             "\n\nAlso if you have any problem with the app or want to request a new feature, " +
@@ -202,7 +215,8 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
             currentTime = laterTime;
             topText1 = "If you go to bed at " + laterTime.format(formatter) + "...";
         }
-        currentTime = currentTime.plusMinutes(14); //time to fall asleep
+        Toast.makeText(this, "Time: "+sleepingTime, Toast.LENGTH_SHORT).show();
+        currentTime = currentTime.plusMinutes(sleepingTime); //time to fall asleep
         for (int i = 1; i <= 6; i++) {
             //prepare data
             currentTime = currentTime.plusMinutes(90);
@@ -521,20 +535,12 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                         flowParams = flowParamsList.get(2);
                         break;
                     }
-                    case R.id.b4: {
-                        flowParams = flowParamsList.get(3);
-                        break;
-                    }
-                    case R.id.b5: {
-                        flowParams = flowParamsList.get(4);
-                        break;
-                    }
                 }
             }
             billingClient.launchBillingFlow(this, flowParams);
         }
         else {
-            new AlertDialog.Builder(MainActivity.this)
+            new MaterialAlertDialogBuilder(MainActivity.this)
                     .setTitle(R.string.connec_failed)
                     .setMessage(R.string.must_have_internet)
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -567,7 +573,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     }
 
     private void handlePurchase(Purchase purchase) {
-        new AlertDialog.Builder(MainActivity.this)
+        new MaterialAlertDialogBuilder(MainActivity.this)
                 .setTitle(R.string.ty)
                 .setMessage(R.string.ty_des)
                 .setPositiveButton(android.R.string.ok, null)
@@ -604,7 +610,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
     @Override
     public void onBillingServiceDisconnected() {
-        new AlertDialog.Builder(MainActivity.this)
+        new MaterialAlertDialogBuilder(MainActivity.this)
                 .setTitle(R.string.connection_problem)
                 .setMessage(R.string.failed_gplay)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -621,8 +627,6 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         skuList.add("small_thank_you");
         skuList.add("big_thank_you");
         skuList.add("love_this_app");
-        skuList.add("generous_tribute");
-        skuList.add("ultimate_supporter");
 
         SkuDetailsParams params = SkuDetailsParams.newBuilder()
                 .setType(BillingClient.SkuType.INAPP)
@@ -644,7 +648,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                         flowParams = BillingFlowParams.newBuilder()
                                 .setSkuDetails(skuDetails)
                                 .build();
-                        for (int i = 0; i < 5; i++)
+                        for (int i = 0; i < 3; i++)
                             flowParamsList.add(flowParams);
 
                         //show
@@ -675,23 +679,6 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                             flowParamsList.add(2, flowParams);
                             continue;
                         }
-                        if (sku.equals("generous_tribute")) {
-                            Button btn = findViewById(R.id.b4);
-                            btn.setText(price);
-                            flowParams = BillingFlowParams.newBuilder()
-                                    .setSkuDetails(skuDetails)
-                                    .build();
-                            flowParamsList.add(3, flowParams);
-                            continue;
-                        }
-                        if (sku.equals("ultimate_supporter")) {
-                            Button btn = findViewById(R.id.b5);
-                            btn.setText(price);
-                            flowParams = BillingFlowParams.newBuilder()
-                                    .setSkuDetails(skuDetails)
-                                    .build();
-                            flowParamsList.add(4, flowParams);
-                        }
                     }
                 }
             }
@@ -704,28 +691,6 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         }
         billingClient.queryPurchases(BillingClient.SkuType.INAPP);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*@Override
-    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        sharedPref.edit().putInt("year", year).apply();
-        sharedPref.edit().putInt("month", month).apply();
-        sharedPref.edit().putInt("day", day).apply();
-        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-    }*/
-
 }
 
 
